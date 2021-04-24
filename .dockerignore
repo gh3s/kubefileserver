@@ -1,0 +1,15 @@
+# Folders
+Dockerfile
+key
+files
+node_modules
+kubernetes
+
+# .ignore files
+.dockerignore
+.gitignore
+README.md
+package-lock.json
+
+# README file
+README.md

@@ -19,11 +19,17 @@ module.exports = class {
         return unlink(this.folder + file) 
     }
 
-    getFile = async(file, extension) => {
-        
-        var filePath = path.join(this.folder, file)
-        console.log(filePath)
-        return createReadStream(filePath)
+    getFile = async(fileName) => {
+        let filePath = path.join(this.folder, fileName)
+        let stats = await fs.promises.stat(filePath)
+        let fileData = {
+            stream: createReadStream(filePath, { autoClose: true}),
+            name: fileName,
+            time: stats.mtimeMs,
+            size: stats.size,
+            type: mime.getType(this.folder + '/' + fileName)
+        }
+        return fileData
     }
 
     readMediaFolder = async (folder) => {
@@ -33,7 +39,8 @@ module.exports = class {
                 return {
                     name: fileName,
                     time: fs.statSync(folder + '/' + fileName).mtime.getTime(),
-                    size: fs.statSync(folder + '/' + fileName).size
+                    size: fs.statSync(folder + '/' + fileName).size,
+                    mime: mime.getType(folder + '/' + fileName)
                 }
             })
             .sort((a, b) => {   //Sort in reverse chronological order
