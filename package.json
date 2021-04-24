@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/gh3s/nodefileserver#readme",
   "dependencies": {
-    "4crud": "^0.1.4"
+    "4crud": "^0.1.5",
+    "mime": "^2.5.2"
   }
 }

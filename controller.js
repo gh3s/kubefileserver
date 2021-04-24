@@ -1,11 +1,13 @@
 const 
-fs = require('fs'),
-util = require('util'),
-path = require('path')
+    fs = require('fs'),
+    util = require('util'),
+    path = require('path'),
+    mime = require('mime/lite')
 
-const readdir = util.promisify(fs.readdir)
-const unlink = util.promisify(fs.unlink)
-const createReadStream = fs.createReadStream
+const 
+    readdir = util.promisify(fs.readdir),
+    unlink = util.promisify(fs.unlink),
+    createReadStream = fs.createReadStream
 
 module.exports = class {
     //Constructor
@@ -17,7 +19,8 @@ module.exports = class {
         return unlink(this.folder + file) 
     }
 
-    getFile = async(file) => {
+    getFile = async(file, extension) => {
+        
         var filePath = path.join(this.folder, file)
         console.log(filePath)
         return createReadStream(filePath)
@@ -34,7 +37,7 @@ module.exports = class {
                 }
             })
             .sort((a, b) => {   //Sort in reverse chronological order
-                return a.time - b.time 
+                return b.time - a.time
             })            
         })
 

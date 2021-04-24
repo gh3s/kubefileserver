@@ -26,7 +26,16 @@ This project uses Mocha-Chai combination in /test folder
 ```sh
 npm test
 ```
+or
+```sh
+node test/server.js
+```
+and in other cli type:
+```sh
+curl localhost:3000/getroute1?name=john
 
+curl -X POST -H "Content-Type: application/json" -d '{"name":"john","password":"abc"}' localhost:3000/postroute1
+```
 ## Features
 * Routing
 * Fast performance (Remember, ES6 have some intrinsic slowdowns but yes, it's fastest as express.js!)
@@ -35,45 +44,45 @@ npm test
 
 ## Example
 
-```sh
-const Server = require('4crud')
+```js
+const Server = require('../')
 const server = new Server()
 
 server
   // curl localhost:3000/getroute1?name=john
-  .get('/getroute1', (req, res) => {
-    console.log(`method: ${req.method} on route 1 with name: ${req.search.get('name')}`)
+  .get('/route1', (req, res) => {
+    console.log(`GET on route 1 with name: ${req.search.get('name')}`)
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(req.url))
   })
-  .get('/getroute2', (req, res) => {
-    console.log(`method: ${req.method} on route 2`)
+  .get('/route2', (req, res) => {
+    //console.log('GET on route 2')
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(req.url))
-  })
-  .put('/putroute1', (req, res) => {
-    console.log(`method: ${req.method}`)
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(req.body))
+    res.end('Hello')
   })
   // curl -X POST -H "Content-Type: application/json" -d '{"name":"john","password":"abc"}' localhost:3000/postroute1
-  .post('/postroute1', (req, res) => {
-    console.log(`method: ${req.method} on POST route 1 with name ${req.body.name}`)
+  .post('/route1', (req, res) => {
+    console.log(`POST route 1 with name ${req.body.name}`)
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(req.body))
   })
-  .post('/postroute2', (req, res) => {
-    console.log(`method: ${req.method}`)
+  .post('/route2', (req, res) => {
+    console.log('POST on route 2')
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(req.body))
   })
-  .delete('/deleteroute1?name=john01', (req, res) => {
-    console.log(`method: ${req.method} on route 1`)
+  .put('/route1', (req, res) => {
+    console.log('PUT on route 1')
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify(req.body))
+  })
+  .delete('/route2', (req, res) => {
+    console.log(`DELETE on route 1 with name ${req.body.name}`)
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(req.body))
@@ -84,6 +93,8 @@ server
 
 ## Express.js comparison
 
+Bellow the benchmark uses wrk (https://github.com/wg/wrk/wiki/Installing-Wrk-on-Linux)
+
 Run on your preferred CLI on /test folder with server on:
 ```sh
 wrk -t8 -c100 -d30s http://localhost:3000/getroute1
@@ -91,8 +102,8 @@ wrk -t8 -c100 -d30s http://localhost:3000/getroute1
 
 |  Framework |  Requests/second | Size(kB) |
 |---|---|---|
-| 4crud  | 19808.47  | 200 |
-| Express  |  19761.31 | 7 |
+| Express  | 9404.79  | 200 |
+| 4crud  |  19761.31 | 7 |
 | | | |
 
 
@@ -110,6 +121,10 @@ npm start
   * CHANGE: Work in progress
 * 0.1.0
   * Basic routing implemented
+* 0.1.5
+  * File server example added
+  * Bugs fixed
+  * Benchmark corrected
 
 ## Authors
 
