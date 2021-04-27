@@ -1,9 +1,7 @@
 # Folders
 Dockerfile
-key
 files
 node_modules
-kubernetes
 
 # .ignore files
 .dockerignore

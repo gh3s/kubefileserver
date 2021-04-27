@@ -18,7 +18,7 @@ spec:
           claimName: pvczg
       containers:
       - name: kubefileserver
-        image: gcr.io/zoneguardian-187817/kubefileserver
+        image: gh3s/kubefileserver
         volumeMounts:
         - name: files
           mountPath: /usr/src/app/files
